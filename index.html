@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Year Surprise</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #000;
+            color: #fff;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        h1 {
+            margin-top: 20px;
+            font-size: 3rem;
+        }
+
+        #countdown {
+            font-size: 2.5rem;
+            margin: 20px 0;
+        }
+
+        #surprise {
+            margin-top: 30px;
+            background: gray;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed;
+            text-transform: uppercase;
+            pointer-events: none;
+        }
+
+        #message {
+            display: none;
+            font-size: 2rem;
+            color: #ff006e;
+            margin-top: 20px;
+        }
+
+        .balloon {
+            position: absolute;
+            width: 20px;
+            height: 30px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0));
+            border-radius: 50%;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🎉 Happy New Year 2025! 🎉</h1>
+    <div id="countdown">00 Days : 00 Hours : 00 Minutes : 00 Seconds</div>
+    <button id="surprise">Surprise Locked</button>
+    <div id="message">Best of Luck, Ms. Future Doctor! 🌟</div>
+
+    <script>
+        // Countdown Timer
+        const countdown = document.getElementById('countdown');
+        const surpriseButton = document.getElementById('surprise');
+        const message = document.getElementById('message');
+        const newYear = new Date('January 1, 2025 00:00:00').getTime();
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const diff = newYear - now;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            countdown.textContent = `${days} Days : ${hours} Hours : ${minutes} Minutes : ${seconds} Seconds`;
+
+            if (diff < 0) {
+                countdown.textContent = 'Happy New Year!';
+                surpriseButton.textContent = 'Open Surprise!';
+                surpriseButton.style.background = 'linear-gradient(to right, #ff006e, #8338ec)';
+                surpriseButton.style.cursor = 'pointer';
+                surpriseButton.style.pointerEvents = 'auto';
+            }
+        }
+        setInterval(updateCountdown, 1000);
+
+        // Unlock Surprise
+        surpriseButton.addEventListener('click', () => {
+            message.style.display = 'block';
+            surpriseButton.style.display = 'none';
+        });
+
+        // Balloons on Touch
+        document.body.addEventListener('click', (e) => {
+            const balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloon.style.left = e.clientX + 'px';
+            balloon.style.top = e.clientY + 'px';
+            balloon.style.background = `radial-gradient(circle, ${randomColor()}, rgba(0,0,0,0))`;
+            document.body.appendChild(balloon);
+
+            setTimeout(() => balloon.remove(), 2000);
+        });
+
+        function randomColor() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+    </script>
+</body>
+</html>
